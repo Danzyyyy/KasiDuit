@@ -1,24 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Volt\Volt;
+use App\Http\Controllers\AuthController; // Panggil Controller baru
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Volt::route('/login', 'auth.login')->name('login');
-Volt::route('/register', 'auth.register')->name('register');
+// --- GANTI VOLT DENGAN INI ---
+
+// Route Login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Route Register
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+// Route Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// -----------------------------
 
 Route::view('/dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
-Route::post('/logout', function () {
-    Auth::logout();
-    session()->invalidate();
-    session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
