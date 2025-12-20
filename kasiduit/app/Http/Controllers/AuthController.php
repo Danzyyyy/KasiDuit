@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,5 +74,57 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
+    }
+
+    // --- GOOGLE LOGIN ---
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            // Ambil data user dari Google
+            $googleUser = Socialite::driver('google')->user();
+
+            $user = User::where('google_id', $googleUser->getId())->first();
+
+            if (!$user) {
+                $user = User::where('email', $googleUser->getEmail())->first();
+
+                if ($user) {
+                    // Kalo email nya ada, kita update google_id-nya
+                    $user->update([
+                        'google_id' => $googleUser->getId(),
+                        'avatar' => $googleUser->getAvatar(), // Update foto profil
+                    ]);
+                } else {
+                    // Buat user baru
+                    $user = User::create([
+                        'name' => $googleUser->getName(),
+                        'email' => $googleUser->getEmail(),
+                        'google_id' => $googleUser->getId(),
+                        'avatar' => $googleUser->getAvatar(),
+                        'role' => 'user', // Default role
+                        'password' => Hash::make(Str::random(16)), 
+                        'email_verified_at' => now(), // Otomatis verifikasi email
+                    ]);
+                }
+            }
+
+            // Login user 
+            Auth::login($user);
+            
+            // session user
+            session()->regenerate();
+
+            return redirect()->intended('dashboard');
+
+        } catch (\Exception $e) {
+            // Kondisi error
+            return redirect('/login')->withErrors(['email' => 'Login Google gagal atau dibatalkan.']);
+        }
     }
 }
