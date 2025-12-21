@@ -22,10 +22,28 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-900 hidden sm:block">Masuk</a>
-                <a href="#" class="bg-brand-red hover:bg-red-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
-                    Daftar
-                </a>
+                @if (Route::has('login'))
+                    @auth
+                        {{-- Jika User Sudah Login: Tampilkan Tombol Dashboard --}}
+                        <a href="{{ url('/dashboard') }}" class="bg-brand-red hover:bg-red-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                            Dashboard
+                        </a>
+                    @else
+                        {{-- Jika User Belum Login (Guest) --}}
+                        
+                        {{-- Tombol Masuk --}}
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 hidden sm:block">
+                            Masuk
+                        </a>
+
+                        {{-- Tombol Daftar --}}
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="bg-brand-red hover:bg-red-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                                Daftar
+                            </a>
+                        @endif
+                    @endauth
+                @endif
             </div>
         </div>
     </div>
