@@ -1,13 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController; // Panggil Controller baru
+use App\Http\Controllers\AuthController;
+use App\Models\Category;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-// --- GANTI VOLT DENGAN INI ---
 
 // Route Login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -26,6 +25,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // -----------------------------
 
-Route::view('/dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    
+    Route::get('/dashboard', function () {$categories = Category::latest()->get();
+    return view('dashboard', compact('categories'));
+    })->name('dashboard');
+
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class)->except(['index', 'show', 'create', 'edit']);
+});

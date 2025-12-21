@@ -1,9 +1,4 @@
 <x-layouts.guest>
-    <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-red-500">Kasiduit</h2>
-        <p class="text-gray-400 text-sm mt-2">Masuk dengan Nama & Email</p>
-    </div>
-
     @if (session('success'))
         <div class="mb-6 p-4 bg-green-600 text-white rounded-lg shadow-md text-sm text-center">
             {{ session('success') }}
