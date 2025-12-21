@@ -30,7 +30,7 @@ class AuthController extends Controller
         // 2. Coba Login (Nama + Email + Password)
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('livewire.home');
         }
 
         // 3. Jika Gagal
@@ -120,7 +120,7 @@ class AuthController extends Controller
             // session user
             session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/home');
 
         } catch (\Exception $e) {
             // Kondisi error

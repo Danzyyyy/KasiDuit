@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController; // Panggil Controller baru
+use App\Http\Controllers\AuthController;
+use App\Livewire\Home; // Panggil Controller baru
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Home::class);
 
 // --- GANTI VOLT DENGAN INI ---
 
@@ -29,3 +28,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::view('/dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/home', function () {
+    // Ini akan memanggil file di resources/views/livewire/home.blade.php
+    return view('livewire.home'); });
