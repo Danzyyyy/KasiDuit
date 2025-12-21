@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Livewire\Home; // Panggil Controller baru
 use App\Models\Category;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Home::class);
 
 // Route Login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -25,6 +24,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // -----------------------------
 
+Route::view('/dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::get('/home', function () {
+    // Ini akan memanggil file di resources/views/livewire/home.blade.php
+    return view('livewire.home'); });
 Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/dashboard', function () {$categories = Category::latest()->get();
