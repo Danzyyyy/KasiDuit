@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Livewire\Home; // Panggil Controller baru
+use App\Livewire\Home;
 use App\Models\Category;
+use App\Livewire\Auth\ForgotPassword;
 
 Route::get('/', Home::class);
 
@@ -21,6 +22,13 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 
 // Route Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Route lupa password
+Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
+
+// Route reset password
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
 // -----------------------------
 
