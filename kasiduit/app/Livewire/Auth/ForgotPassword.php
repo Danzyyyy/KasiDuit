@@ -7,11 +7,15 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
-// 1. Import Namespace PHPMailer
+// Import Namespace PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+#[Layout('components.layouts.app')]
+#[Title('Lupa Password - KasiDuit')]
 class ForgotPassword extends Component
 {
     public $email;
@@ -31,7 +35,7 @@ class ForgotPassword extends Component
 
         $otpCode = rand(100000, 999999);
 
-        // Simpan token ke database (Tetap diperlukan untuk validasi nanti)
+        // Simpan token ke database
         DB::table('password_reset_tokens')->updateOrInsert(
             ['email' => $this->email],
             [
@@ -40,7 +44,7 @@ class ForgotPassword extends Component
             ]
         );
 
-        // --- 2. LOGIKA PHPMAILER DIMULAI DI SINI ---
+        // --- KIRIM EMAIL VIA PHPMAILER ---
         $mail = new PHPMailer(true);
 
         try {
@@ -48,38 +52,39 @@ class ForgotPassword extends Component
             $mail->isSMTP();
             $mail->Host       = env('MAIL_HOST', 'smtp.gmail.com');
             $mail->SMTPAuth   = true;
-            $mail->Username   = env('MAIL_USERNAME'); // Email pengirim
-            $mail->Password   = env('MAIL_PASSWORD'); // App Password (jika pakai Gmail)
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Sesuaikan dengan env (tls/ssl)
+            $mail->Username   = env('MAIL_USERNAME');
+            $mail->Password   = env('MAIL_PASSWORD');
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = env('MAIL_PORT', 587);
 
-            // Penerima
+            // Pengirim & Penerima
             $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-            $mail->addAddress($this->email); // Email tujuan (input user)
+            $mail->addAddress($this->email);
 
             // Konten Email
             $mail->isHTML(true);
-            $mail->Subject = 'Kode OTP Reset Password';
+            $mail->Subject = 'Kode OTP Reset Password - KasiDuit';
             $mail->Body    = "
-                <h3>Permintaan Reset Password</h3>
-                <p>Gunakan kode OTP berikut untuk mereset password Anda:</p>
-                <h2 style='color: red;'>{$otpCode}</h2>
-                <p>Kode ini berlaku selama 15 menit.</p>
+                <div style='font-family: Arial, sans-serif; padding: 20px; color: #333;'>
+                    <h3 style='color: #dc2626;'>Permintaan Reset Password</h3>
+                    <p>Kami menerima permintaan untuk mereset password akun KasiDuit Anda. Gunakan kode OTP berikut:</p>
+                    <div style='background: #f3f4f6; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0;'>
+                        <h1 style='color: #dc2626; letter-spacing: 5px; margin: 0;'>{$otpCode}</h1>
+                    </div>
+                    <p>Kode ini berlaku selama 15 menit. Jangan berikan kode ini kepada siapapun.</p>
+                </div>
             ";
 
             $mail->send();
 
-            // Jika berhasil kirim, lanjut ke step 2
             $this->step = 2;
             session()->flash('success', 'Kode OTP telah dikirim ke email Anda via PHPMailer.');
 
         } catch (Exception $e) {
-            // Jika gagal kirim
             $this->addError('email', 'Gagal mengirim email: ' . $mail->ErrorInfo);
         }
     }
 
-    // Logic resetPassword tetap SAMA persis seperti sebelumnya
     public function resetPassword()
     {
         $this->validate([
@@ -114,6 +119,6 @@ class ForgotPassword extends Component
 
     public function render()
     {
-        return view('auth.forgot_password');
+        return view('livewire.auth.forgot_password');
     }
 }
