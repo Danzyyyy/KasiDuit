@@ -1,16 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-use App\Livewire\Home;
-use App\Livewire\CampaignIndex; // Pastikan ini benar
-
-Route::get('/', Home::class);
-Route::get('/campaigns', CampaignIndex::class)->name('campaigns');
-=======
 use App\Http\Controllers\AuthController;
-use App\Livewire\Home; // Panggil Controller baru
+use App\Livewire\Home;
 use App\Models\Category;
+use App\Livewire\Auth\ForgotPassword;
 
 Route::get('/', Home::class);
 
@@ -29,6 +23,13 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 // Route Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Route lupa password
+Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
+
+// Route reset password
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
 // -----------------------------
 
 Route::view('/dashboard', 'dashboard')
@@ -46,4 +47,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('categories', \App\Http\Controllers\CategoryController::class)->except(['index', 'show', 'create', 'edit']);
 });
->>>>>>> 3b05a1277d1ccccd91955fb64f6cd2a4a4015374
