@@ -48,8 +48,7 @@ class CategoryIndex extends Component
         $cat = Category::findOrFail($id);
         $this->categoryId = $id;
         $this->name = $cat->name;
-        $this->slug = $cat->slug;
-        
+        $this->slug = $cat->slug;        
         $this->editMode = true; 
     }
 
