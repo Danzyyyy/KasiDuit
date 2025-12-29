@@ -39,7 +39,7 @@ class AuthController extends Controller
         // Format: Auth::attempt(['email' => $email, 'password' => $pass], $remember)
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/');
         }
 
         // 3. Jika Gagal

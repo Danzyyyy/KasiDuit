@@ -13,7 +13,6 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'slug', // Wajib ada karena di migrasi tidak nullable
-        'icon',
+        'slug',
     ];
 }
