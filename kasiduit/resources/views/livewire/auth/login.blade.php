@@ -1,19 +1,25 @@
 <div class="min-h-screen flex flex-col md:flex-row font-sans">
     
+    {{-- BAGIAN KIRI: FORM LOGIN --}}
     <div class="w-full md:w-1/2 bg-white flex flex-col justify-center items-center p-8 md:p-12 order-2 md:order-1">
         <div class="w-full max-w-md">
             
             <div class="mb-10 text-center md:text-left">
-                <a href="/" class="inline-flex items-center gap-2 mb-6 group">
-                    <svg class="w-8 h-8 text-red-600 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                    <span class="text-2xl font-bold text-gray-800 tracking-tight">KasiDuit</span>
+                <a href="/" class="inline-flex items-center gap-3 mb-6 group">
+                    {{-- GANTI ICONS SVG DENGAN GAMBAR --}}
+                    <div class="relative w-10 h-10 overflow-hidden rounded-full shadow-sm border border-red-50 group-hover:scale-110 transition-transform duration-300">
+                        <img src="https://i.ibb.co.com/VpL5Nk6j/Desain-tanpa-judul-20.png" 
+                             onerror="this.src='https://ui-avatars.com/api/?name=KD&background=dc2626&color=fff'"
+                             alt="KasiDuit Logo" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-2xl font-bold text-gray-800 tracking-tight group-hover:text-red-600 transition-colors">KasiDuit</span>
                 </a>
                 <h1 class="text-3xl font-bold text-gray-900 mb-2">Masuk Akun</h1>
                 <p class="text-gray-500">Selamat datang kembali di KasiDuit</p>
             </div>
 
+            {{-- PESAN SUKSES --}}
             @if (session('success'))
                 <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-r shadow-sm animate-fade-in-down">
                     <div class="flex">
@@ -29,14 +35,17 @@
                 </div>
             @endif
 
+            {{-- PESAN ERROR --}}
             @if (session()->has('error'))
                 <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r shadow-sm">
                     {{ session('error') }}
                 </div>
             @endif
 
+            {{-- FORM LOGIN --}}
             <form wire:submit="login" class="space-y-6">
                 
+                {{-- EMAIL INPUT --}}
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                     <input type="email" id="email" wire:model="email" 
@@ -45,10 +54,10 @@
                     @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
+                {{-- PASSWORD INPUT --}}
                 <div x-data="{ show: false }">
                     <div class="flex justify-between items-center mb-2">
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        {{-- LINK LUPA PASSWORD DIAKTIFKAN DI SINI --}}
                         <a href="{{ route('password.request') }}" class="text-sm text-red-600 hover:text-red-700 font-medium hover:underline">
                             Lupa Password?
                         </a>
@@ -71,6 +80,7 @@
                     @error('password') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
+                {{-- REMEMBER ME CHEKBOX --}}
                 <div class="flex items-center">
                     <input id="remember" wire:model="remember" type="checkbox" class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
                     <label for="remember" class="ml-2 block text-sm text-gray-600">
@@ -78,6 +88,7 @@
                     </label>
                 </div>
 
+                {{-- TOMBOL LOGIN --}}
                 <button type="submit" 
                     class="w-full py-3.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full shadow-lg shadow-red-200 transform hover:-translate-y-0.5 transition duration-200 flex justify-center items-center gap-2">
                     <span wire:loading.remove wire:target="login">Masuk Akun</span>
@@ -85,6 +96,7 @@
                 </button>
             </form>
 
+            {{-- PEMBATAS ATAU --}}
             <div class="relative my-8">
                 <div class="absolute inset-0 flex items-center">
                     <div class="w-full border-t border-gray-200"></div>
@@ -94,6 +106,7 @@
                 </div>
             </div>
 
+            {{-- TOMBOL GOOGLE --}}
             <a href="{{ route('google.login') }}" class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-200 transform hover:-translate-y-0.5">
                 <svg class="h-5 w-5" viewBox="0 0 24 24">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -104,6 +117,7 @@
                 Google
             </a>
 
+            {{-- LINK DAFTAR --}}
             <p class="mt-8 text-center text-gray-600">
                 Belum punya akun? 
                 <a href="{{ route('register') }}" class="font-bold text-red-600 hover:text-red-700 hover:underline">Daftar Sekarang</a>
@@ -111,6 +125,7 @@
         </div>
     </div>
 
+    {{-- BAGIAN KANAN: ILUSTRASI --}}
     <div class="hidden md:flex w-full md:w-1/2 bg-red-50 justify-center items-center p-8 relative overflow-hidden order-1 md:order-2">
         <div class="absolute top-10 right-10 w-32 h-32 bg-red-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
         <div class="absolute bottom-10 left-10 w-32 h-32 bg-pink-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
