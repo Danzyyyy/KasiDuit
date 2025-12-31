@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Campaign;
 
 class Category extends Model
 {
@@ -13,7 +14,11 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'slug', // Wajib ada karena di migrasi tidak nullable
-        'icon',
+        'slug', 
     ];
+    
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class);
+    }
 }

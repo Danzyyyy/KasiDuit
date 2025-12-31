@@ -42,6 +42,19 @@
                 </button>
             </form>
 
+            <div class="flex items-center">
+                <input id="remember_me" name="remember" type="checkbox">
+                <label for="remember_me">
+                    Ingat Saya
+                </label>
+            </div>
+
+            <div class="text-sm">
+                <a href="{{ route('password.request') }}">
+                    Lupa Password?
+                </a>
+            </div>
+
             <div class="mt-4">
                 <a href="{{ route('google.login') }}" 
                 class="flex items-center justify-center w-full px-4 py-2 text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-200">

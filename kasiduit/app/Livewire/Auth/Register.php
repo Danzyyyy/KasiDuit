@@ -3,33 +3,30 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
+#[Layout('components.layouts.app')]
+#[Title('Daftar Akun - KasiDuit')]
 class Register extends Component
 {
-    public $username = '';
+    public $name = '';
     public $email = '';
     public $password = '';
     public $password_confirmation = '';
 
     protected $rules = [
-        'username' => 'required|string|min:3|max:255|unique:users,username|alpha_dash',
+        'name' => 'required|string|min:3|max:255',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8|confirmed',
     ];
 
     protected $messages = [
-        'username.required' => 'Username wajib diisi.',
-        'username.min' => 'Username minimal 3 karakter.',
-        'username.unique' => 'Username sudah digunakan.',
-        'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, dash dan underscore.',
-        'email.required' => 'Email wajib diisi.',
-        'email.email' => 'Format email tidak valid.',
+        // ... (pesan error tetap sama)
+        'name.required' => 'Nama Lengkap wajib diisi.',
         'email.unique' => 'Email sudah terdaftar.',
-        'password.required' => 'Password wajib diisi.',
-        'password.min' => 'Password minimal 8 karakter.',
         'password.confirmed' => 'Konfirmasi password tidak cocok.',
     ];
 
@@ -43,21 +40,25 @@ class Register extends Component
         $this->validate();
 
         try {
-            $user = User::create([
-                'username' => $this->username,
+            // 1. Simpan User Baru
+            User::create([
+                'name' => $this->name,
                 'email' => $this->email,
                 'password' => Hash::make($this->password),
                 'role' => 'user',
             ]);
 
-            Auth::login($user);
+            // 2. JANGAN Login Otomatis (Hapus atau Komentar baris ini)
+            // Auth::login($user); 
 
-            session()->flash('success', 'Registrasi berhasil! Selamat datang, ' . $user->username);
+            // 3. Kirim Flash Message Sukses
+            session()->flash('success', 'Registrasi berhasil! Silakan login dengan akun baru Anda.');
 
-            return redirect()->route('dashboard');
+            // 4. Redirect ke Halaman Login
+            return redirect()->route('login');
 
         } catch (\Exception $e) {
-            $this->addError('email', 'Terjadi kesalahan. Silakan coba lagi.');
+            $this->addError('email', 'Terjadi kesalahan sistem. Silakan coba lagi.');
         }
     }
 

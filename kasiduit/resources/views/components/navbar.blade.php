@@ -28,6 +28,12 @@
                         <a href="{{ url('/dashboard') }}" class="bg-brand-red hover:bg-red-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
                             Dashboard
                         </a>
+                        <form action="{{ route('logout') }}" method="POST" class="inline-block ml-2">
+                            @csrf
+                            <button type="submit" class="text-sm font-medium text-gray-600 hover:text-red-600 transition cursor-pointer">
+                                Keluar
+                            </button>
+                        </form>
                     @else
                         {{-- Jika User Belum Login (Guest) --}}
                         
