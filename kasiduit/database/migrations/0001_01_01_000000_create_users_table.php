@@ -11,22 +11,35 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // 1. Tabel Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            
+            // --- GABUNGAN REQUEST ANDA ---
+            $table->string('google_id')->nullable();       // Login Google
+            $table->string('password')->nullable();        // Nullable (aman buat Google Login)
+            $table->string('phone')->nullable();           // No HP
+            $table->string('location')->nullable();        // Lokasi
+            $table->text('bio')->nullable();               // Bio User
+            // -----------------------------
+
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->enum('role', ['user', 'user_verified', 'admin'])->default('user');
+            $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
 
+        // 2. Tabel Password Reset Tokens
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
+        // 3. Tabel Sessions
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
