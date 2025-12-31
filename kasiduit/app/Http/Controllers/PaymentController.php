@@ -11,25 +11,21 @@ class PaymentController extends Controller
 {
     public function callback(Request $request)
     {
-        // 1. Konfigurasi
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        // 2. Baca Notifikasi
         try {
             $notif = new Notification();
         } catch (\Exception $e) {
             return response()->json(['message' => 'Invalid notification'], 400);
         }
 
-        // 3. Ambil Data
         $transaction = $notif->transaction_status;
         $type = $notif->payment_type;
         $order_id = $notif->order_id;
 
-        // 4. Cari Donasi
         $donation = Donation::where('order_id', $order_id)->first();
         if (!$donation) {
             return response()->json(['message' => 'Donation not found'], 404);
@@ -51,12 +47,9 @@ class PaymentController extends Controller
             $readableMethod = 'Mandiri Bill Payment';
         }
 
-        // Update payment_method tanpa mengubah status (jaga-jaga status masih pending)
         $donation->update(['payment_method' => $readableMethod]);
-        // -------------------------------------------------------
 
 
-        // 5. Tentukan Status Baru
         if ($donation->status == 'paid') {
             return response()->json(['message' => 'Already paid'], 200);
         }
@@ -71,7 +64,6 @@ class PaymentController extends Controller
             $newStatus = 'failed';
         }
 
-        // 6. Update Database Status
         if ($newStatus) {
             $donation->update(['status' => $newStatus]);
 

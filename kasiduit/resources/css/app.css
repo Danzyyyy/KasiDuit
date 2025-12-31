@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -6,6 +7,50 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Mengatur Font Default ke Inter */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Mengatur Warna Custom "Brand" */
+    /* Ini akan membuat class: bg-brand-red, text-brand-dark, border-brand-light, dll. */
+    --color-brand-red: #dc2626;
+    --color-brand-dark: #111827;
+    --color-brand-light: #f9fafb;
+}
+
+/* 3. Custom Global CSS */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        font-family: var(--font-sans);
+        /* Opsional: antialiasing agar font lebih tajam */
+        -webkit-font-smoothing: antialiased; 
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* 4. Custom Utility (pb-safe) */
+@utility pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+@layer utilities {
+    /* Alpine.js Cloak (Mencegah kedipan saat loading) */
+    [x-cloak] { 
+        display: none !important; 
+    }
+
+    /* Custom Scrollbar untuk Sidebar */
+    .custom-scrollbar::-webkit-scrollbar { 
+        width: 4px; 
+    }
+    .custom-scrollbar::-webkit-scrollbar-track { 
+        background: transparent; 
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb { 
+        background-color: #e5e7eb; 
+        border-radius: 20px; 
+    }
 }

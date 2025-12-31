@@ -15,14 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
-    <style> 
-        body { font-family: 'Inter', sans-serif; } 
-        [x-cloak] { display: none !important; }
-        /* Custom Scrollbar untuk Sidebar */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e5e7eb; border-radius: 20px; }
-    </style>
 </head>
 <body class="bg-gray-50 font-sans antialiased text-gray-600 font-medium" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
 
