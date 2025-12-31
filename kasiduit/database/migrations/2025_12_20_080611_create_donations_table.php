@@ -33,6 +33,8 @@ return new class extends Migration
         $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
         $table->string('snap_token')->nullable(); // Khusus Midtrans (jika pakai)
 
+        $table->string('payment_method')->nullable();
+
         $table->timestamps();
     });
 }

@@ -1,5 +1,6 @@
 <div class="min-h-screen flex flex-col md:flex-row font-sans">
     
+    {{-- BAGIAN KIRI (FORM) --}}
     <div class="w-full md:w-1/2 bg-white flex flex-col justify-center items-center p-8 md:p-12 order-2 md:order-1">
         <div class="w-full max-w-md">
             
@@ -16,6 +17,7 @@
 
             <form wire:submit="register" class="space-y-5">
                 
+                {{-- NAMA --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
                     <input type="text" wire:model.live="name" 
@@ -24,6 +26,7 @@
                     @error('name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
+                {{-- EMAIL --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                     <input type="email" wire:model.live="email" 
@@ -32,31 +35,64 @@
                     @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
+                {{-- PASSWORD UTAMA --}}
                 <div x-data="{ show: false }">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
                     <div class="relative">
                         <input :type="show ? 'text' : 'password'" wire:model.live="password"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-600 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition duration-200 placeholder-gray-400 pr-12"
                             placeholder="Minimal 8 karakter">
+                        
                         <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 px-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
-                            <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                            <svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.574-2.59M5.22 5.22a3 3 0 014.24 0M9.88 9.88a3 3 0 014.24 0M12 12.75l-4-4m0 0l4 4m-4-4l4 4" /></svg>
+                            
+                            {{-- Icon Lucide: Eye Off (Password Sembunyi) --}}
+                            <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off w-5 h-5">
+                                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                                <line x1="2" x2="22" y1="2" y2="22"/>
+                            </svg>
+
+                            {{-- Icon Lucide: Eye (Password Terlihat) --}}
+                            <svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye w-5 h-5" style="display:none;">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            
                         </button>
                     </div>
                     @error('password') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
+                {{-- KONFIRMASI PASSWORD --}}
                 <div x-data="{ show: false }">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
                     <div class="relative">
                         <input :type="show ? 'text' : 'password'" wire:model.live="password_confirmation"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-600 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition duration-200 placeholder-gray-400 pr-12"
                             placeholder="Ulangi password">
+                        
                         <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 px-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
-                             <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                             <svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.574-2.59M5.22 5.22a3 3 0 014.24 0M9.88 9.88a3 3 0 014.24 0M12 12.75l-4-4m0 0l4 4m-4-4l4 4" /></svg>
+                            
+                            {{-- Icon Lucide: Eye Off --}}
+                            <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off w-5 h-5">
+                                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                                <line x1="2" x2="22" y1="2" y2="22"/>
+                            </svg>
+
+                            {{-- Icon Lucide: Eye --}}
+                            <svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye w-5 h-5" style="display:none;">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            
                         </button>
                     </div>
+                    @error('password_confirmation') 
+                        <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> 
+                    @enderror
                 </div>
 
                 <button type="submit" 
@@ -73,6 +109,7 @@
         </div>
     </div>
 
+    {{-- BAGIAN KANAN (GAMBAR/ILUSTRASI) --}}
     <div class="hidden md:flex w-full md:w-1/2 bg-red-50 justify-center items-center p-8 relative overflow-hidden order-1 md:order-2">
         <div class="absolute top-1/4 left-1/4 w-40 h-40 bg-red-100 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob"></div>
         <div class="absolute bottom-1/4 right-1/4 w-40 h-40 bg-orange-100 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000"></div>
