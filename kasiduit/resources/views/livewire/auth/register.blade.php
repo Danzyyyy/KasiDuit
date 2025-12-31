@@ -115,7 +115,7 @@
         <div class="absolute bottom-1/4 right-1/4 w-40 h-40 bg-orange-100 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000"></div>
 
         <div class="text-center relative z-10 max-w-md">
-            <img src="https://cdni.iconscout.com/illustration/premium/thumb/donation-3486121-2914619.png" alt="Ilustrasi Donasi" class="w-full h-auto mb-8 drop-shadow-xl mx-auto object-contain max-h-[400px]">
+            <img src="https://i.ibb.co.com/fGChKx9f/bccc34bb-e216-4b0d-a0b8-e1976c45c5ad.png" alt="Ilustrasi Donasi" class="w-full h-auto mb-8 drop-shadow-xl mx-auto object-contain max-h-[400px]">
             
             <h2 class="text-2xl font-bold text-red-900 mb-3">Satu Koin Sejuta Kebaikan</h2>
             <p class="text-red-800/70 leading-relaxed">Kontribusi kecil Anda adalah awal dari perubahan besar bagi mereka yang membutuhkan.</p>
