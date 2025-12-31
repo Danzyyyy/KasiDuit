@@ -164,5 +164,5 @@
         </div>
         {{-- END MODAL --}}
 
-    </div>
+    </div> 
 </x-layouts.app>
