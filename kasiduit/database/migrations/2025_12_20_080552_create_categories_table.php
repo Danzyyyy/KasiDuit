@@ -15,7 +15,6 @@ public function up(): void
         $table->id();
         $table->string('name'); // Contoh: Pendidikan, Bencana
         $table->string('slug')->unique(); // Contoh: pendidikan, bencana
-        $table->string('icon')->nullable(); // Path gambar icon
         $table->timestamps();
     });
 }
