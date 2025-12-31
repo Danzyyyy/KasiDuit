@@ -120,6 +120,24 @@ class Profile extends Component
         $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
         session()->flash('success', 'Password berhasil diubah.');
     }
+    public function deletePhoto()
+    {
+        $user = Auth::user();
+
+        // 1. Cek apakah user punya foto custom (bukan link Google/null)
+        if ($user->avatar && !str_contains($user->avatar, 'http')) {
+            // Hapus file fisik dari storage
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        // 2. Set kolom avatar di database jadi NULL
+        $user->update(['avatar' => null]);
+
+        // 3. Reset state foto sementara (jika user baru saja upload tapi ingin hapus lagi)
+        $this->reset('photo');
+
+        session()->flash('success', 'Foto profil berhasil dihapus.');
+    }
 
     public function render()
     {

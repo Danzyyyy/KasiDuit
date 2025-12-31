@@ -19,20 +19,26 @@ class Register extends Component
 
     protected $rules = [
         'name' => 'required|string|min:3|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:8|confirmed',
+        'email' => 'required|email:dns|unique:users,email',
+        'password' => 'required|min:8', 
+        'password_confirmation' => 'same:password', 
     ];
 
     protected $messages = [
-        // ... (pesan error tetap sama)
         'name.required' => 'Nama Lengkap wajib diisi.',
         'email.unique' => 'Email sudah terdaftar.',
-        'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        'password_confirmation.same' => 'Konfirmasi password tidak cocok dengan password.',
     ];
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        if ($propertyName === 'password') {
+            $this->validateOnly('password');
+        } elseif ($propertyName === 'password_confirmation') {
+            $this->validateOnly('password_confirmation');
+        } else {
+            $this->validateOnly($propertyName);
+        }
     }
 
     public function register()
@@ -40,7 +46,6 @@ class Register extends Component
         $this->validate();
 
         try {
-            // 1. Simpan User Baru
             User::create([
                 'name' => $this->name,
                 'email' => $this->email,
@@ -48,13 +53,7 @@ class Register extends Component
                 'role' => 'user',
             ]);
 
-            // 2. JANGAN Login Otomatis (Hapus atau Komentar baris ini)
-            // Auth::login($user); 
-
-            // 3. Kirim Flash Message Sukses
-            session()->flash('success', 'Registrasi berhasil! Silakan login dengan akun baru Anda.');
-
-            // 4. Redirect ke Halaman Login
+            session()->flash('success', 'Registrasi berhasil! Silakan login.');
             return redirect()->route('login');
 
         } catch (\Exception $e) {

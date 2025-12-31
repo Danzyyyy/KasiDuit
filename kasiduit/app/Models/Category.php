@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Campaign;
+use App\Models\Campaign; // Pastikan import ini ada
 
 class Category extends Model
 {
@@ -16,7 +16,11 @@ class Category extends Model
         'name',
         'slug', 
     ];
-    
+
+    /**
+     * Relasi: Satu Kategori memiliki banyak Campaign.
+     * Fungsi inilah yang dicari oleh withCount('campaigns').
+     */
     public function campaigns()
     {
         return $this->hasMany(Campaign::class);

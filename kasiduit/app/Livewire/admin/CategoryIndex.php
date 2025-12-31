@@ -7,7 +7,6 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 
-// 👇 PERUBAHAN DI SINI
 #[Layout('components.layouts.admin')] 
 class CategoryIndex extends Component
 {
@@ -71,7 +70,17 @@ class CategoryIndex extends Component
 
     public function delete($id)
     {
-        Category::findOrFail($id)->delete();
+        $category = Category::findOrFail($id);
+
+        // 1. Cek apakah kategori ini masih punya campaign
+        if ($category->campaigns()->exists()) {
+            // Jika ada, jangan dihapus. Kirim pesan error.
+            session()->flash('error', 'Gagal menghapus! Kategori ini masih digunakan oleh Campaign.');
+            return;
+        }
+
+        // 2. Jika aman, baru hapus
+        $category->delete();
         session()->flash('message', 'Kategori berhasil dihapus.');
     }
 

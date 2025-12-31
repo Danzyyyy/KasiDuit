@@ -2,7 +2,7 @@
 
 <section class="relative bg-gray-900 h-[600px] flex items-center">
     <div class="absolute inset-0 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Hero Background" class="w-full h-full object-cover">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Hero Background" class="w-full h-full object-cover">
     </div>
     
     <div class="absolute inset-0 bg-gradient-to-r from-brand-red/95 via-brand-red/80 to-transparent"></div>
@@ -17,10 +17,11 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                <a href="#" class="bg-white text-brand-red px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-gray-100 transition text-center">
+                <a href="{{ route('campaigns.index', 1) }}" class="bg-white text-brand-red px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-gray-100 transition text-center">
                     Donasi Sekarang
                 </a>
-                <a href="#" class="bg-red-800/40 backdrop-blur-sm border border-white/20 text-white px-8 py-3.5 rounded-full font-bold hover:bg-red-800/60 transition text-center">
+
+                <a href="{{ route('campaigns.create') }}" class="bg-red-800/40 backdrop-blur-sm border border-white/20 text-white px-8 py-3.5 rounded-full font-bold hover:bg-red-800/60 transition text-center">
                     Galang Dana
                 </a>
             </div>
